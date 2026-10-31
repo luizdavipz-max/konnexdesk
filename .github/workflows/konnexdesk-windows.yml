@@ -305,7 +305,7 @@ jobs:
           mkdir -p saida
           pip3 install -r libs/portable/requirements.txt
           for v in cliente suporte; do
-            cp konnex/custom-$v.txt rustdesk/custom.txt
+            printf %s "$v" > rustdesk/modo.txt
             pushd libs/portable
             python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/KonnexDesk.exe
             popd

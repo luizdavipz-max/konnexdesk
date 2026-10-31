@@ -2357,25 +2357,28 @@ pub fn rustdesk_interval(i: Interval) -> ThrottledInterval {
     ThrottledInterval::new(i)
 }
 
+// KonnexDesk: o servidor e fixo e nao ha conta. Vale para todo processo do programa (janela, servico, instalador).
+// So quem tem "suporte" no modo.txt, ao lado do executavel, abre conexoes; sem o arquivo, o programa so recebe.
 pub fn load_custom_client() {
-    #[cfg(debug_assertions)]
-    if let Ok(data) = std::fs::read_to_string("./custom.txt") {
-        read_custom_client(data.trim());
-        return;
+    {
+        let host = config::RENDEZVOUS_SERVERS[0];
+        let mut fixas = config::OVERWRITE_SETTINGS.write().unwrap();
+        for (k, v) in [("custom-rendezvous-server", host), ("relay-server", host), ("key", config::RS_PUB_KEY)] {
+            fixas.insert(k.to_owned(), v.to_owned());
+        }
     }
-    let Some(path) = std::env::current_exe().map_or(None, |x| x.parent().map(|x| x.to_path_buf()))
-    else {
-        return;
-    };
-    #[cfg(target_os = "macos")]
-    let path = path.join("../Resources");
-    let path = path.join("custom.txt");
-    if path.is_file() {
-        let Ok(data) = std::fs::read_to_string(&path) else {
-            log::error!("Failed to read custom client config");
-            return;
-        };
-        read_custom_client(&data.trim());
+    let modo = std::env::current_exe()
+        .ok()
+        .and_then(|x| x.parent().map(|p| p.join("modo.txt")))
+        .and_then(|p| std::fs::read_to_string(p).ok())
+        .unwrap_or_default();
+    let mut travas = config::HARD_SETTINGS.write().unwrap();
+    for k in ["disable-ab", "disable-account", "disable-group-panel"] {
+        travas.insert(k.to_owned(), "Y".to_owned());
+    }
+    if modo.trim() != "suporte" {
+        travas.insert("conn-type".to_owned(), "incoming".to_owned());
+        travas.insert("disable-settings".to_owned(), "Y".to_owned());
     }
 }
 
