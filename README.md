@@ -11,6 +11,6 @@ Programa de suporte remoto usado pela equipe do [Konnex](https://konnexgestao.co
 - `load_custom_client` em `src/common.rs` fixa o servidor e lê o `modo.txt`;
 - duas versões: `KonnexDesk.exe` para o cliente, que só recebe conexão, e `KonnexDesk-Suporte.exe` para a equipe;
 - links do programa e aviso de licença na tela Sobre;
-- só as compilações para Windows x64 e Mac (`.github/workflows/konnexdesk-*.yml`); no Mac, assinatura ad hoc.
+- só as compilações para Windows x64, Mac e Android (`.github/workflows/konnexdesk-*.yml`); no Mac, assinatura ad hoc. No Android existe só a versão que recebe conexão.
 
 RustDesk é marca de seus respectivos donos. Este projeto não tem vínculo com a equipe do RustDesk.

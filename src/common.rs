@@ -2371,6 +2371,7 @@ pub fn load_custom_client() {
             fixas.insert(k.to_owned(), v.to_owned());
         }
     }
+    config::DEFAULT_LOCAL_SETTINGS.write().unwrap().insert(config::keys::OPTION_LANGUAGE.to_owned(), "pt".to_owned());
     let modo = std::env::current_exe()
         .ok()
         .and_then(|x| x.parent().map(|p| p.join(MODO)))

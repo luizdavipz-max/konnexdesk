@@ -608,8 +608,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  Color.fromARGB(255, 226, 66, 188),
-                  Color.fromARGB(255, 244, 114, 124),
+                  Color(0xFF1D4ED8),
+                  Color(0xFF06B6D4),
                 ],
               )),
               padding: EdgeInsets.all(20),
@@ -1045,11 +1045,11 @@ void setPasswordDialog({VoidCallback? notEmptyCallback}) async {
                           style: TextStyle(
                               color: checked
                                   ? const Color(0xFF0A9471)
-                                  : Color.fromARGB(255, 198, 86, 157)),
+                                  : Color(0xFF1D4ED8)),
                         ),
                         backgroundColor: checked
                             ? const Color(0xFFD0F7ED)
-                            : Color.fromARGB(255, 247, 205, 232));
+                            : Color(0xFFDBE7FF));
                   }).toList(),
                 ))
           ],
