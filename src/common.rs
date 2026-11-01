@@ -2360,6 +2360,10 @@ pub fn rustdesk_interval(i: Interval) -> ThrottledInterval {
 // KonnexDesk: o servidor e fixo e nao ha conta. Vale para todo processo do programa (janela, servico, instalador).
 // So quem tem "suporte" no modo.txt, ao lado do executavel, abre conexoes; sem o arquivo, o programa so recebe.
 pub fn load_custom_client() {
+    #[cfg(target_os = "macos")]
+    const MODO: &str = "../Resources/modo.txt";
+    #[cfg(not(target_os = "macos"))]
+    const MODO: &str = "modo.txt";
     {
         let host = config::RENDEZVOUS_SERVERS[0];
         let mut fixas = config::OVERWRITE_SETTINGS.write().unwrap();
@@ -2369,7 +2373,7 @@ pub fn load_custom_client() {
     }
     let modo = std::env::current_exe()
         .ok()
-        .and_then(|x| x.parent().map(|p| p.join("modo.txt")))
+        .and_then(|x| x.parent().map(|p| p.join(MODO)))
         .and_then(|p| std::fs::read_to_string(p).ok())
         .unwrap_or_default();
     let mut travas = config::HARD_SETTINGS.write().unwrap();
