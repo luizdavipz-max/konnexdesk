@@ -26,6 +26,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
+  // KonnexDesk: o cliente so recebe conexao, entao abre direto em Compartilhar Tela
+  int _abaInicial = 0;
   int get selectedIndex => _selectedIndex;
   final List<PageShape> _pages = [];
   int _chatPageTabIndex = -1;
@@ -43,6 +45,10 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     initPages();
+    if (isAndroid && bind.isIncomingOnly() && _chatPageTabIndex >= 0) {
+      _abaInicial = _chatPageTabIndex + 1;
+      _selectedIndex = _abaInicial;
+    }
   }
 
   void initPages() {
@@ -63,9 +69,9 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          if (_selectedIndex != 0) {
+          if (_selectedIndex != _abaInicial) {
             setState(() {
-              _selectedIndex = 0;
+              _selectedIndex = _abaInicial;
             });
           } else {
             return true;
